@@ -60,6 +60,11 @@ def check_hostname
   info("Perform checks on the hostname...")
 
   check_env_var("DISCOURSE_HOSTNAME")
+  
+  if ENV["DISCOURSE_HOSTNAME"] == "localhost"
+    warning("Skipping hostname check because of local hostname (#{ENV["DISCOURSE_HOSTNAME"]})")
+    return
+  end
 
   begin
     resolver = Dnsruby::Resolver.new
